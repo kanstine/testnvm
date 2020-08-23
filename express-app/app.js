@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var mysql = require('mysql')
+
 var app = express();
 
 // view engine setup
@@ -21,6 +23,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/get123', usersRouter)
+
+// 连接数据库
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'nodesql'
+});
+
+db.connect((err)=> {
+  if (err) {
+    throw err
+  }
+  console.log('数据库连接成功')
+});
+
+app.get('/getuser', (req, res, next)=> {
+  console.log('=====sql======')
+  let sql = 'SELECT * FROM user';
+  db.query(sql, (err, result)=> {
+    if (err) {
+      throw err
+    } else {
+      console.log(result);
+      res.send('查询成功')
+    }
+  })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +68,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3000, ()=> {
+  console.log('http://localhost:3000/')
+})
 
 module.exports = app;
