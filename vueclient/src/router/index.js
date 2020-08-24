@@ -6,22 +6,29 @@ const HomePage = () => import('../views/HomePage.vue')
 const Page404 = () => import('../views/404.vue')
 const Page403 = () => import('../views/404.vue')
 
+const Login = () => import('../views/Login.vue')
+
 const menuRoutes = [
   {
     path: '/Home',
     component: Home,
-    redirect: '/Home/HomePage',
+    redirect: '/Home/Login',
     meta: { title: 'Home', icon: 'iconfont icon-manage' },
     children: [
-      { path: 'HomePage', component: HomePage, meta: { title: 'HomePage' } }
+      { path: 'HomePage', component: HomePage, meta: { title: 'HomePage' } },
+      { path: 'Login', component: Login, meta: { title: 'Login' } }
     ]
   }
 ]
 
 const routes = [
   {
+    path: '/login',
+    component: Login
+  },
+  {
     path: '/',
-    redirect: '/Home/HomePage'
+    redirect: '/Home/Login'
   },
   ...menuRoutes,
   {
