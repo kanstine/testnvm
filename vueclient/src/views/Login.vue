@@ -35,7 +35,7 @@ export default {
           password: this.password
         }
         const res = await this.$api.login.login(data)
-        console.log(res)
+        console.log(res.data)
       } catch (err) {
         console.log(err)
       } finally {

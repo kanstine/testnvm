@@ -47,9 +47,9 @@ function selectSql (sql, req, res) {
         return
       }
       if (data[0].password == req.body.password) {
-        res.end('{"success": "true", "code": 200}');
+        res.end(`{"success": "true", "code": 200, "data": ${JSON.stringify(data)}}`);
       } else {
-        res.end('{"success": "false", "code": 500, "msg": "密码错误"}');
+        res.end(`{"success": "false", "code": 500, "msg": "密码错误"`);
       }
       
     }

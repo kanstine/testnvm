@@ -11,7 +11,7 @@ const Login = () => import('../views/Login.vue')
 const menuRoutes = [
   {
     path: '/Home',
-    component: Home,
+    component: Login,
     redirect: '/Home/Login',
     meta: { title: 'Home', icon: 'iconfont icon-manage' },
     children: [
