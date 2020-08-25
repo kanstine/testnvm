@@ -1,0 +1,14 @@
+.top-box {
+  margin-bottom: 10px;
+}
+.top-box {
+  display: flex;
+  .el-input {
+    width: 200px;
+    margin-right: 10px;
+  }
+  .top-right {
+    position: absolute;
+    right: 10px;
+  }
+}

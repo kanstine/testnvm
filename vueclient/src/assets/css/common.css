@@ -1,0 +1,10 @@
+/* 页面布局 */
+.page-box {
+  padding: 0 10px;
+}
+
+/* 分页 */
+.pagination {
+  margin-top: 20px;
+  text-align: right;
+}

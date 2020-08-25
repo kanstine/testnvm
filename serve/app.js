@@ -33,7 +33,9 @@ app.use(session({
   saveUninitialized: true
 })) */
 
-var Sql = require('./routes/dbhandler');
+// var Sql = require('./routes/dbhandler');
+var CommonSql = require('./sql/common-sql')
+var UserSql = require('./sql/user')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,7 +53,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
 // 连接数据库
-/* const db = mysql.createConnection({
+const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'root',
@@ -63,10 +65,10 @@ db.connect((err)=> {
     throw err
   }
   console.log('数据库连接成功')
-}); */
+});
 
 // 查询
-app.get('/getuser', (req, res, next)=> {
+/* app.get('/getuser', (req, res, next)=> {
   const data = Sql.selectSql('SELECT * FROM user', req, res)
 });
 
@@ -91,9 +93,9 @@ app.get('/upData', (req, res, next)=> {
 // 删除数据
 app.get('/deleteData', (req, res, next)=> {
   Sql.deleteSql('DELETE FROM createtest WHERE id = 2', req, res)
-});
+}); */
 
-app.get('/login', (req, res, next)=> {
+/* app.get('/login', (req, res, next)=> {
   const obj = url.parse(req.url, true);
   let pathname = obj.pathname;
   pathname = './public/dist/index.html'
@@ -108,15 +110,42 @@ app.get('/login', (req, res, next)=> {
         res.end();
         
     })
-});
+}); */
 
 // 处理登录
 app.post('/login', (req, res, next)=> {
   console.log('get da ze')
   console.log(req.body.username)
-  Sql.selectSql(`SELECT * FROM user WHERE name = "${req.body.username}"`, req, res)
+  CommonSql.login(db, req, res)
 })
 
+// 查询用户信息
+app.post('/userPage', (req, res, next)=> {
+  console.log('get da ze')
+  console.log(req.body)
+  UserSql.selectUser(db, req, res)
+})
+
+// 添加用户信息
+app.post('/userAdd', (req, res, next)=> {
+  console.log('get da ze')
+  console.log(req.body)
+  UserSql.addUser(db, req, res)
+})
+
+// 修改用户信息 updateUser
+app.post('/userUpdate', (req, res, next)=> {
+  console.log('get da ze')
+  console.log(req.body)
+  UserSql.updateUser(db, req, res)
+})
+
+// 删除用户信息
+app.post('/userDelete', (req, res, next)=> {
+  console.log('get da ze')
+  console.log(req.body)
+  UserSql.deleteUser(db, req, res)
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

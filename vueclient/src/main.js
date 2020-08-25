@@ -6,6 +6,8 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import api from '../src/js/api'
+import './assets/css/common.css'
+import './assets/css/commons.scss'
 
 Vue.config.productionTip = false
 

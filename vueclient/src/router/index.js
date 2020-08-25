@@ -10,13 +10,14 @@ const Login = () => import('../views/Login.vue')
 
 const menuRoutes = [
   {
-    path: '/Home',
-    component: Login,
-    redirect: '/Home/Login',
+    path: '/user',
+    component: Home,
+    redirect: '/user/UserPage',
     meta: { title: 'Home', icon: 'iconfont icon-manage' },
     children: [
       { path: 'HomePage', component: HomePage, meta: { title: 'HomePage' } },
-      { path: 'Login', component: Login, meta: { title: 'Login' } }
+      { path: 'Login', component: Login, meta: { title: 'Login' } },
+      { path: 'UserPage', component: () => import('../views/user/UserPage.vue'), meta: { title: 'User' } }
     ]
   }
 ]
@@ -26,10 +27,10 @@ const routes = [
     path: '/login',
     component: Login
   },
-  {
+  /* {
     path: '/',
     redirect: '/Home/Login'
-  },
+  }, */
   ...menuRoutes,
   {
     path: '/error',
