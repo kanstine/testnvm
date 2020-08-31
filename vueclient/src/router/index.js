@@ -16,7 +16,7 @@ const menuRoutes = [
     meta: { title: 'Home', icon: 'iconfont icon-manage' },
     children: [
       { path: 'HomePage', component: HomePage, meta: { title: 'HomePage' } },
-      { path: 'Login', component: Login, meta: { title: 'Login' } },
+      // { path: 'Login', component: Login, meta: { title: 'Login' } },
       { path: 'UserPage', component: () => import('../views/user/UserPage.vue'), meta: { title: 'User' } }
     ]
   }
@@ -24,13 +24,14 @@ const menuRoutes = [
 
 const routes = [
   {
+    path: '/',
+    // redirect: '/user/Login'
+    component: Login
+  },
+  {
     path: '/login',
     component: Login
   },
-  /* {
-    path: '/',
-    redirect: '/Home/Login'
-  }, */
   ...menuRoutes,
   {
     path: '/error',

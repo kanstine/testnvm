@@ -45,12 +45,24 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static('public'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
+
+app.use(express.static(path.join(__dirname, 'html'))); // 启用公用文件
+
+app.get('/login', function(req, res, next) {
+  res.writeHead(200,{'Content-Type':'text/html'})
+  fs.readFile('./html/index.html','utf-8',function(err,data){
+      if(err){
+      throw err ;
+      }
+      res.end(data);
+      });
+});
 
 // 连接数据库
 const db = mysql.createConnection({
@@ -67,50 +79,10 @@ db.connect((err)=> {
   console.log('数据库连接成功')
 });
 
-// 查询
-/* app.get('/getuser', (req, res, next)=> {
-  const data = Sql.selectSql('SELECT * FROM user', req, res)
-});
+//
+app.get('/', (req, res, next)=> {
 
-// 创建表
-app.get('/createTable', (req, res, next)=> {
-  Sql.createSql('CREATE TABLE createtest (id int AUTO_INCREMENT, title VARCHAR(255), PRIMARY KEY(ID))', req, res)
-});
-
-//  INSERT 插入数据 insertSql
-app.get('/insertData', (req, res, next)=> {
-  const data = [{
-    title: 'inserttest2'
-  }]
-  Sql.insertSql('INSERT INTO createtest SET ?', data, req, res)
-});
-
-// UPDATA 更新数据
-app.get('/upData', (req, res, next)=> {
-  Sql.updateSql('UPDATE createtest SET title = "uptest" WHERE id = 1', req, res)
-});
-
-// 删除数据
-app.get('/deleteData', (req, res, next)=> {
-  Sql.deleteSql('DELETE FROM createtest WHERE id = 2', req, res)
-}); */
-
-/* app.get('/login', (req, res, next)=> {
-  const obj = url.parse(req.url, true);
-  let pathname = obj.pathname;
-  pathname = './public/dist/index.html'
-  let fileName = './' + pathname;
-    fs.readFile(fileName,(err,data)=>{
-        if(err){
-            console.log(pathname)
-            console.log(err)
-        }else{
-            res.write(data)
-        }
-        res.end();
-        
-    })
-}); */
+})
 
 // 处理登录
 app.post('/login', (req, res, next)=> {
@@ -162,8 +134,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-app.use(express.static(path.join(__dirname, 'dist')))
 
 app.listen(3000, ()=> {
   console.log('http://localhost:3000/')

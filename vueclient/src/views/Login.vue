@@ -35,7 +35,13 @@ export default {
           password: this.password
         }
         const res = await this.$api.login.login(data)
-        console.log(res.data)
+        const canL = res.data.code === 200
+        console.log(res.data.code)
+        if (canL) {
+          this.$router.push('./user/HomePage')
+        } else {
+          this.$message.error('用户名或密码错误') // 待优化 - 区分
+        }
       } catch (err) {
         console.log(err)
       } finally {
