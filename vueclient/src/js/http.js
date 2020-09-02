@@ -11,6 +11,38 @@ function transformRequest (data) {
   return ret.slice(0, -1)
 }
 
+// 响应拦截器
+axios.interceptors.response.use(
+  function (response = {}) {
+    // 请求成功
+    if (response.status === 200) {
+      // 处理返回数据
+      if (response.data) {
+        const { code, msg, message, data } = response.data
+        if (+code >= 200 && +code <= 300) {
+          return Promise.resolve(data || msg || message)
+        } else {
+          if (code === 401) {
+            return Promise.reject(new Error('登录已失效，请重新登录'))
+          }
+          return Promise.reject(new Error(msg || message || code))
+        }
+      }
+
+      return Promise.resolve(response.statusText)
+    }
+
+    const dataMessage = (response.data || {}).msg || (response.data || {}).message
+    const errorMessage = dataMessage || response.statusText || response.status
+    return Promise.reject(new Error(errorMessage))
+  },
+  function (error) {
+    const response = error.response || {}
+    const data = response.data || {}
+    const dataErrMsg = data.msg || data.message || data.code || data.status // data 错误信息
+    return Promise.reject(new Error(dataErrMsg || response.statusText || response.status))
+  })
+
 // 请求方法
 export default {
   get ({ url, params = {} }) {

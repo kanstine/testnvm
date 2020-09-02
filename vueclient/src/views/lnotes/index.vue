@@ -1,0 +1,53 @@
+<template>
+  <div class="notes">
+    <div class="side-box">
+      <Side></Side>
+    </div>
+    <div class="content">
+      <div class="top-content"  v-if="pageType === 'show'"><topContent @changePageType="changePageType"></topContent></div>
+
+      <router-view v-if="pageType === 'show'"></router-view>
+
+      <div class="add-edit" v-if="pageType === 'ae'">
+        <addEdit></addEdit>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Side from '@/components/common/side'
+import topContent from '@/components/page/notes/top-content'
+import addEdit from './AddEdit'
+export default {
+  components: {
+    Side,
+    topContent,
+    addEdit
+  },
+  data () {
+    return {
+      pageType: 'show'
+    }
+  },
+  methods: {
+    changePageType (type) {
+      this.pageType = type
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .notes {
+    height: 100%;
+    display: flex;
+    .side-box {
+      background-color: #6e757b;
+    }
+    .content {
+      padding: 20px;
+      width: 100%;
+    }
+  }
+</style>

@@ -97,7 +97,11 @@ export default {
     async getTableData () {
       try {
         this.pageLoading = true
-        const res = await this.$api.user.getUserPage()
+        const data = {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        }
+        const res = await this.$api.user.getUserPage(data)
         console.log(res.data)
         this.tableData = res.data.data
       } catch {

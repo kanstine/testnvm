@@ -17,6 +17,7 @@ db.connect((err)=> {
 
 function login (db, req, res) {
   console.log('=== sql login ====')
+  console.log(req.body)
   const sql = `SELECT * FROM user WHERE name = "${req.body.username}"`
   db.query(sql, (err, result)=> {
     if (err) {

@@ -13,29 +13,25 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-// 跨域（后面上线的时候需要删掉）
-/* app.all('*', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', "http://localhost:8088"); // 为了跨域保持session，需指定地址，不能用*
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials', true); 
-  next();
-})
-
-// session
-var session = require('express-session');
-app.use(session({
-  secret: 'classweb0731', // 设置session签名
-  name: 'classweb',
-  cookie: {maxAge: 60 * 1000 * 60 * 24}, // 存储时间 24 小时
-  resave: false, // 每次请求都重新设置session
-  saveUninitialized: true
-})) */
-
 // var Sql = require('./routes/dbhandler');
 var CommonSql = require('./sql/common-sql')
 var UserSql = require('./sql/user')
+
+var db2 = require('./db/db'); //引入db
+var userSql = require('./db/notes/noteshome');
+
+app.get("/getAllUsers", function (req, res, next) {
+    var results = {};
+    db2.query(userSql.query, [], function (err, rows) {
+        results = rows;
+        console.log("results: " + results.str);
+        res.send(results);
+    });
+});
+
+
+var blogs = require('./routes/blogs')
+app.use('/blogs', blogs)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

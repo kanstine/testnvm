@@ -2,7 +2,16 @@ const mysql = require('mysql')
 
 function selectUser (db, req, res) {
   console.log('=== sql select ====')
-  const sql = 'SELECT * FROM user'
+  const num = (req.body.pageNum - 1) * req.body.pageSize
+  const sql = `SELECT * FROM user LIMIT ${num},${req.body.pageSize};`
+  let zum = 0
+  db.query('SELECT COUNT(*) FROM user', (err, result) => {
+    if (err) {
+      throw err
+    } else {
+      zum = JSON.parse(JSON.stringify(result))[0]['COUNT(*)']
+    }
+  })
   db.query(sql, (err, result)=> {
     if (err) {
       throw err

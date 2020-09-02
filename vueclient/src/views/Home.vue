@@ -11,7 +11,12 @@
           <template slot="title">用户</template>
           <el-menu-item index="11" @click="handleUser">用户列表</el-menu-item>
         </el-submenu>
-        <el-menu-item index="2">其他</el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">工具</template>
+          <el-menu-item index="21" @click="handleRouter('/tool/Schedule')">RC</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="8">其他</el-menu-item>
+        <el-menu-item index="9">COC</el-menu-item>
       </el-menu>
     </div>
 
@@ -31,6 +36,9 @@ export default {
   methods: {
     handleUser () {
       this.$router.push({ path: '/user/UserPage' })
+    },
+    handleRouter (rou) {
+      this.$router.push({ path: rou })
     }
   }
 }
