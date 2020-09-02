@@ -8,7 +8,18 @@ var NotesSql = {
 
 function selectNotePage (req, res) {
   var results = {};
-  const sql = 'SELECT * FROM notes '
+  const sql = 'SELECT * FROM notes'
+  db.query(sql, [], function (err, resdata) {
+    results = resdata
+    console.log("results: " + results.str)
+    res.end(`{"success": "true", "code": 200, "data": ${JSON.stringify(results)}}`)
+  })
+}
+
+function addNotes (req, res) {
+  var results = {};
+  console.log('请求：', req.body)
+  const sql = 'SELECT * FROM notes'
   db.query(sql, [], function (err, resdata) {
     results = resdata
     console.log("results: " + results.str)
@@ -18,5 +29,6 @@ function selectNotePage (req, res) {
 
 module.exports = {
   NotesSql,
-  selectNotePage
+  selectNotePage,
+  addNotes
 };

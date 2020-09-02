@@ -15,6 +15,10 @@ router.post('/notesPage',  function(req, res){
   notesSql.selectNotePage(req, res)
 })
 
+router.post('/noteAdd', function(req, res) {
+  notesSql.addNotes(req, res)
+})
+
 
 
 
