@@ -12,7 +12,10 @@
           <el-input v-model="form.type" placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="简介：">
-
+          <el-input v-model="form.synopsis" type="textarea" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <dotHandle></dotHandle>
         </el-form-item>
       </el-form>
     </div>
@@ -20,7 +23,11 @@
 </template>
 
 <script>
+import dotHandle from '@/components/page/notes/dot-handle'
 export default {
+  components: {
+    dotHandle
+  },
   data () {
     return {
       form: {}

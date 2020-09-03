@@ -30,7 +30,11 @@ export default {
   .top {
     width: 100%;
     margin: 0 0 20px 0;
+    padding: 5px;
     position: relative;
+    border: 1px solid rgb(220, 223, 230);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;
     .el-input {
       width: 200px
     }
@@ -39,8 +43,8 @@ export default {
     }
     .top-right {
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 5px;
+      top: 5px;
     }
   }
 </style>

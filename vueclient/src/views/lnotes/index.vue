@@ -9,7 +9,7 @@
       <router-view v-if="pageType === 'show'"></router-view>
 
       <div class="add-edit" v-if="pageType === 'ae'">
-        <addEdit></addEdit>
+        <blockAe ref="ae"></blockAe>
       </div>
     </div>
   </div>
@@ -18,12 +18,12 @@
 <script>
 import Side from '@/components/common/side'
 import topContent from '@/components/page/notes/top-content'
-import addEdit from './AddEdit'
+import blockAe from '@/components/page/notes/block-ae'
 export default {
   components: {
     Side,
     topContent,
-    addEdit
+    blockAe
   },
   data () {
     return {

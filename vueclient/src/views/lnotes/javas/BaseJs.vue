@@ -1,24 +1,33 @@
 <template>
   <div class="page">
-    <div class="note-row">
-      <div class="row" v-for="item in dataList" :key="item.id">
+    <!-- 展示列表 -->
+    <div class="note-row" v-show="showType === 'list'">
+      <div class="row" v-for="item in noteList" :key="item.id" @click="handleShow(item)">
         <div class="row-title">{{item.title}}</div>
         <div class="row-synopsis">{{item.synopsis}}</div>
       </div>
     </div>
+
+    <!-- 展示页面 -->
+    <blockHandle ref="detailPage" v-show="showType === 'detail'" @back="handleBack"></blockHandle>
   </div>
 </template>
 
 <script>
 import { notesPage } from '../../../js/api/notes'
+import blockHandle from '@/components/page/notes/block-handle'
 export default {
+  components: {
+    blockHandle
+  },
   data () {
     return {
-      dataList: [],
+      noteList: [],
       pageNum: 1,
       pageSize: 10,
       totle: 0,
-      search: ''
+      search: '',
+      showType: 'list'
     }
   },
   created () {
@@ -32,9 +41,20 @@ export default {
           pageSize: this.pageSize
         }
         const res = await notesPage(data)
-        console.log(res)
-        this.dataList = res
+        this.noteList = res
       } catch {}
+    },
+    handleShow (item) {
+      // 展示详情
+      console.log('item', item)
+      this.showType = 'detail'
+      this.$nextTick(() => {
+        this.$refs.detailPage.noteData = item
+        this.$refs.detailPage.getData()
+      })
+    },
+    handleBack () {
+      this.showType = 'list'
     }
   }
 }

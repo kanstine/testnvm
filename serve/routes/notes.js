@@ -19,7 +19,9 @@ router.post('/noteAdd', function(req, res) {
   notesSql.addNotes(req, res)
 })
 
-
+router.post('/noteBlockPage', function(req, res) {
+  notesSql.selectBlock(req, res)
+})
 
 
 
