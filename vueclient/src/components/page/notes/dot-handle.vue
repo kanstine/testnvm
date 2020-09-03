@@ -17,10 +17,10 @@
         <ul>
           <div class="block-con" v-for="row in block.rowList" :key="row.rowId" @click="handleRowEditShow(row.rowId)">
             <li  v-show="rowEditId !== row.rowId">{{row.text}}</li>
-            <li v-show="rowEditId === row.rowId"><el-input v-model="row.text" :id="row.rowId" @blur="handleRowEdit(row.rowId)" placeholder=""></el-input></li>
+            <li v-show="rowEditId === row.rowId"><el-input v-model="row.text" clearable :id="row.rowId" @blur="handleRowEdit(row.rowId)" placeholder=""></el-input></li>
           </div>
           <div class="block-con">
-            <li><el-input v-model="rowAddData.text" placeholder="" @blur="handleRowAdd(block.blockId)"></el-input></li>
+            <li><el-input v-model="rowAddData.text" placeholder="" clearable @blur="handleRowAdd(block.blockId)"></el-input></li>
           </div>
         </ul>
       </div>

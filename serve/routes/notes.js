@@ -16,15 +16,20 @@ router.post('/notesPage',  function(req, res){
 })
 
 router.post('/noteAdd', function(req, res) {
-  notesSql.addNotes(req, res)
+  notesSql.selectNotes(req, res)
 })
 
 router.post('/noteBlockPage', function(req, res) {
   notesSql.selectBlock(req, res)
 })
 
+router.post('/notesAdd', function(req, res) {
+  notesSql.addNotes(req, res)
+})
 
-
+router.post('/blockAdd', function(req, res) {
+  notesSql.addBlock(req, res)
+})
 
 
 module.exports = router;

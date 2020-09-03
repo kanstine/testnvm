@@ -1,5 +1,5 @@
 <template>
-  <!-- 块操作 -->
+  <!-- note块操作主页 -->
   <div class="block-box">
     <div class="back">
       <el-button type="primary" icon="el-icon-arrow-left" @click="handleBack">返回</el-button>

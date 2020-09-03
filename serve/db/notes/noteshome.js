@@ -16,7 +16,8 @@ function selectNotePage (req, res) {
   })
 }
 
-function addNotes (req, res) {
+// 查询笔记信息
+function selectNotes (req, res) {
   var results = {};
   console.log('请求：', req.body)
   const sql = 'SELECT * FROM notes'
@@ -27,6 +28,7 @@ function addNotes (req, res) {
   })
 }
 
+// 查询块信息
 function selectBlock (req, res) {
   console.log('请求：', req.body)
   const sql = `SELECT * FROM notes_block WHERE nid = ${req.body.nid}`
@@ -34,6 +36,7 @@ function selectBlock (req, res) {
     res.setHeader('Content-Type', 'text/plain;charset=utf-8');
     if (err) {
       res.end(`{"success": "false", "code": 500, "msg": "SQL ERROR"}`)
+      return
     }
     for(let i = 0; i < resdata.length; i++) {
       const sqlr = `SELECT * FROM notes_row WHERE block_id = ${resdata[i].block_id}`
@@ -48,6 +51,35 @@ function selectBlock (req, res) {
 
   })
 }
+
+// 新增note
+function addNotes (req, res) {
+  const sql = `INSERT INTO notes (title, type, synopsis) VALUES ("${req.body.title}", "${req.body.type}", "${req.body.synopsis}")`
+  db.query(sql, [], function(err, resdata) {
+    res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+    if (err) {
+      console.log('err')
+      res.end(`{"success": "false", "code": 500, "msg": "SQL ERROR"}`)
+    } else {
+      res.end(`{"success": "true", "code": 200, "data": ${resdata.insertId}}`)
+    }
+  })
+}
+
+// 新增block
+function addBlock (req, res) {
+  const sql = `INSERT INTO notes (title, type, synopsis) VALUES ("${req.body.title}", "${req.body.type}", "${req.body.synopsis}")`
+  db.query(sql, [], function(err, resdata) {
+    res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+    if (err) {
+      console.log('err')
+      res.end(`{"success": "false", "code": 500, "msg": "SQL ERROR"}`)
+    } else {
+      res.end(`{"success": "true", "code": 200, "data": ${resdata.insertId}}`)
+    }
+  })
+}
+
 
 // 将数据库 下划线类型字段名称 改为驼峰命名
 function convertToCamelCase(str) {
@@ -70,6 +102,7 @@ function convertToCamelCase(str) {
 module.exports = {
   NotesSql,
   selectNotePage,
-  addNotes,
-  selectBlock
+  selectNotes,
+  selectBlock,
+  addNotes
 };

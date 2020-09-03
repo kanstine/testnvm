@@ -22,13 +22,13 @@ axios.interceptors.response.use(
         if (+code >= 200 && +code <= 300) {
           return Promise.resolve(data || msg || message)
         } else {
+          console.log('code:', code)
           if (code === 401) {
             return Promise.reject(new Error('登录已失效，请重新登录'))
           }
           return Promise.reject(new Error(msg || message || code))
         }
       }
-
       return Promise.resolve(response.statusText)
     }
 

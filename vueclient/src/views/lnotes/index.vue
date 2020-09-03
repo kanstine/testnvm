@@ -9,7 +9,7 @@
       <router-view v-if="pageType === 'show'"></router-view>
 
       <div class="add-edit" v-if="pageType === 'ae'">
-        <blockAe ref="ae"></blockAe>
+        <blockAe ref="ae" @cancel="handleBack"></blockAe>
       </div>
     </div>
   </div>
@@ -31,8 +31,13 @@ export default {
     }
   },
   methods: {
+    // 改变页面显示类型
     changePageType (type) {
       this.pageType = type
+    },
+    // 返回当前页面
+    handleBack () {
+      this.pageType = 'show'
     }
   }
 }
