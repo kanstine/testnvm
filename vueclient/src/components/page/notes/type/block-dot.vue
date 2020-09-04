@@ -1,5 +1,6 @@
 <template>
-  <div>NOTES</div>
+  <!-- 点类型 -->
+  <div></div>
 </template>
 
 <script>

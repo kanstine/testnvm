@@ -11,6 +11,9 @@
       <div class="add-edit" v-if="pageType === 'ae'">
         <blockAe ref="ae" @cancel="handleBack"></blockAe>
       </div>
+      <div class="add-edit" v-if="pageType === 'write'">
+        <blockAe ref="write" @cancel="handleBack"></blockAe>
+      </div>
     </div>
   </div>
 </template>

@@ -12,6 +12,8 @@ const BHome = () => import('../views/blogs/index.vue')
 
 const LearnNotes = () => import('../views/lnotes/index.vue')
 
+const ArticleHome = () => import('../views/article/index.vue')
+
 const menuRoutes = [
   {
     path: '/user',
@@ -44,8 +46,18 @@ const menuRoutes = [
     redirect: '/notes/Home',
     meta: { title: 'Blogs', icon: 'iconfont icon-manage' },
     children: [
-      { path: 'Home', component: () => import('../views/lnotes/Catalog.vue'), meta: { title: 'Blogs' } },
+      { path: 'Home', component: () => import('../views/lnotes/Catalog.vue'), meta: { title: '知识点笔记' } },
       { path: 'Base', component: () => import('../views/lnotes/javas/BaseJs.vue'), meta: { title: 'Base' } }
+    ]
+  }, {
+    path: '/article',
+    component: ArticleHome,
+    redirect: '/article/Show',
+    meta: { title: 'Blogs', icon: 'iconfont icon-manage' },
+    children: [
+      { path: 'Show', component: () => import('../views/article/ShowArticle.vue'), meta: { title: '文章' } },
+      { path: 'Write', component: () => import('../views/article/WriterArticle.vue'), meta: { title: '写文章' } },
+      { path: 'Mould', component: () => import('../views/article/MouldPage.vue'), meta: { title: '模板' } }
     ]
   }
 ]

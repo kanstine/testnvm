@@ -5,6 +5,9 @@ var app = express();
 var notes = require('./routes/notes')
 app.use('/notes', notes)
 
+var article = require('./routes/article')
+app.use('/article', article)
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

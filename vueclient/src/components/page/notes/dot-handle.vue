@@ -5,24 +5,43 @@
         <el-dropdown @command="handleType">
           <div class="handle-item">类型</div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="cs">普通</el-dropdown-item>
+            <el-dropdown-item command="1_textarea">文本</el-dropdown-item>
+            <el-dropdown-item command="2_dot">知识点</el-dropdown-item>
+            <el-dropdown-item command="3_table">表格</el-dropdown-item>
+            <el-dropdown-item command="4_image">图片</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <div class="handle-item-add">
+        <div class="add-top" @click="handleBlockAdd(0, block.blockId)">上插入</div>
+        <div class="add-bottom" @click="handleBlockAdd(1, block.blockId)">下插入</div>
+        <!-- <div class="handle-item-add">
           <div class="add-top" @click="handleBlockAdd(0, block.blockId)">上插入</div>
           <div class="add-bottom" @click="handleBlockAdd(1, block.blockId)">下插入</div>
-        </div>
+        </div> -->
       </div>
       <div class="block-content">
-        <ul>
-          <div class="block-con" v-for="row in block.rowList" :key="row.rowId" @click="handleRowEditShow(row.rowId)">
-            <li  v-show="rowEditId !== row.rowId">{{row.text}}</li>
-            <li v-show="rowEditId === row.rowId"><el-input v-model="row.text" clearable :id="row.rowId" @blur="handleRowEdit(row.rowId)" placeholder=""></el-input></li>
+        <!-- 块标题 -->
+        <div class="block-title">
+          <div v-if="blockEditId !== block.blockId" @click="handleBlockTitleEdit(block.blockId)">标题：{{block.title}}</div>
+          <el-input v-model="block.title" v-if="blockEditId === block.blockId" :id="block.blockId" @blur="handleEditBlock()" placeholder="请输入标题"></el-input>
+        </div>
+        <!-- 行 -->
+        <div class="block-con" v-for="row in block.rowList" :key="row.rowId" @click="handleRowEditShow(row.rowId)">
+          <!-- 显示 -->
+          <div  v-show="rowEditId !== row.rowId">
+            {{row.text}}
+            <!-- 操作 -->
+            <div class="row-handle">
+              <i class="el-icon-download"></i>
+              <i class="el-icon-upload2"></i>
+              <i class="el-icon-rank"></i>
+            </div>
           </div>
-          <div class="block-con">
-            <li><el-input v-model="rowAddData.text" placeholder="" clearable @blur="handleRowAdd(block.blockId)"></el-input></li>
-          </div>
-        </ul>
+          <!-- 编辑 -->
+          <div v-show="rowEditId === row.rowId"><el-input v-model="row.text" clearable :id="row.rowId" @blur="handleRowEdit(row.rowId)" placeholder="请输入"></el-input></div>
+        </div>
+        <div class="block-con">
+          <div><el-input v-model="block.newRowText" placeholder="请输入" clearable @blur="handleRowAdd(block.blockId)"></el-input></div>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +54,7 @@ export default {
       blockList: [
         { blockId: 101,
           type: '',
+          title: '测试块',
           rowList: [
             { rowId: 101001, type: '', text: 'dadada' },
             { rowId: 101002, type: '', text: 'awsl' }
@@ -43,11 +63,13 @@ export default {
       ],
       blockMould: {
         blockId: '',
+        title: '',
         type: '',
         rowList: []
       },
+      blockEditId: '',
       rowEditId: '',
-      rowAddData: {}
+      textareaData: ''
     }
   },
   methods: {
@@ -69,18 +91,31 @@ export default {
     },
     // 添加行
     handleRowAdd (blockId) {
-      if (!this.rowAddData.text) {
-        return
-      }
       const index = this.blockList.findIndex(x => x.blockId === blockId)
       const len = this.blockList[index].rowList.length
+      if (!this.blockList[index].newRowText) {
+        return
+      }
+
       let data = {
-        rowId: this.blockList[index].rowList[len - 1].rowId + 1 || this.blockList[index].blockId * 100 + 1,
-        text: this.rowAddData.text,
+        rowId: this.blockList[index].rowList.length > 0 ? this.blockList[index].rowList[len - 1].rowId + 1 : this.blockList[index].blockId * 100 + 1,
+        text: this.blockList[index].newRowText,
         type: ''
       }
       this.blockList[index].rowList.push(data)
-      this.rowAddData.text = ''
+      this.blockList[index].newRowText = ''
+    },
+    // 编辑块
+    handleBlockTitleEdit (blockId) {
+      this.blockEditId = blockId
+      this.$nextTick(() => {
+        const input = document.getElementById(blockId)
+        input.focus()
+      })
+    },
+    //
+    handleEditBlock () {
+      this.blockEditId = ''
     },
     // 添加块
     handleBlockAdd (loc, blockId) {
@@ -96,61 +131,76 @@ export default {
 
 <style lang="scss" scoped>
   .note-block {
-    border: 1px solid yellow;
     border-radius: 10px;
     margin-bottom: 10px;
     .block-handle {
+      opacity: 0;
       position: relative;
-      height: 42px;
-      border: 1px solid aqua;
+      height: 32px;
+      line-height: 30px;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       display: flex;
       .handle-item {
-        width: 80px;
-        height: 100%;
-        line-height: 42px;
+        padding: 0 10px;
+        height: 31px;
         padding: 0 10px;
         color: white;
         text-align: center;
         border: 1px solid #409EFF;
-        background-color: rgba($color: #409EFF, $alpha: 0.8);
-      }
-      .handle-item:hover {
+        border-bottom: 0;
         background-color: rgba($color: #409EFF, $alpha: 1);
       }
-      .handle-item-add {
-        width: 80px;
-        height: 100%;
-        text-align: center;
-        .add-top {
-          height: 20px;
-          line-height: 20px;
-          background: rgb(225, 243, 216);
-          border: 1px solid #67C23A;
-          border-bottom: 0;
-        }
-        .add-top:hover {
-          background: #67C23A;
-        }
-        .add-bottom {
-          height: 20px;
-          line-height: 20px;
-          background: rgb(225, 243, 216);
-          border: 1px solid #67C23A;
-        }
-        .add-bottom:hover {
-          background: #67C23A;
-        }
+      .handle-item:hover {
+        background-color: rgba($color: #409EFF, $alpha: 0.8);
+      }
+      .add-top {
+        padding: 0 10px;
+        height: 31px;
+        color: white;
+        background: #67C23A;
+        border: 1px solid #67C23A;
+        border-bottom: 0;
+      }
+      .add-top:hover {
+        background: rgba($color: #67C23A, $alpha: 0.8);
+      }
+      .add-bottom {
+        padding: 0 10px;
+        height: 31px;
+        color: white;
+        background: #67C23A;
+        border: 1px solid #67C23A;
+        border-bottom: 0;
+      }
+      .add-bottom:hover {
+        background: rgba($color: #67C23A, $alpha: 0.8);
       }
     }
     .block-content {
-      border: 1px solid aqua;
+      border: 1px solid #409EFF;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+      padding: 0 0 20px 0;
       .block-con {
-        margin: 5px 0;
+        position: relative;
+        margin: 0 10px;
+        padding: 10px;
+        border: 1px solid #DCDFE6;
+        .row-handle {
+          display: block;
+          float: right;
+        }
       }
+      .block-title {
+        padding: 10px;
+        font-size: 20px;
+      }
+    }
+  }
+  .note-block:hover {
+    .block-handle {
+      opacity: 1;
     }
   }
 </style>

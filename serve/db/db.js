@@ -10,7 +10,8 @@ var pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'nvmysql'
+    database: 'nvmysql',
+    multipleStatements: true
 
 });
 

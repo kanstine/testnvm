@@ -1,5 +1,6 @@
 <template>
-  <div>NOTES</div>
+  <!-- 表格类型 -->
+  <div></div>
 </template>
 
 <script>

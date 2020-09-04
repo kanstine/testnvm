@@ -1,8 +1,8 @@
 <template>
   <div class="ae-detail">
     <!-- 编辑数据 -->
-    <el-form :model="form" label-width="60px">
-      <el-form-item label="标题：">
+    <el-form :model="form" label-width="70px">
+      <el-form-item label="标题：" required>
         <el-input v-model="noteData.title" placeholder="" :disabled="pageType === 'edit'"></el-input>
       </el-form-item>
       <el-form-item label="分类：">
@@ -61,6 +61,10 @@ export default {
     async saveAdd () {
       console.log('smg', this.$refs.aeDot.blockList)
       try {
+        if (!this.noteData.title.trim()) {
+          this.$message.warning('请先填写标题')
+          return
+        }
         const data = {
           title: this.noteData.title,
           type: this.noteData.type,

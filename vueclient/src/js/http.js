@@ -20,6 +20,7 @@ axios.interceptors.response.use(
       if (response.data) {
         const { code, msg, message, data } = response.data
         if (+code >= 200 && +code <= 300) {
+          // console.log('success', code, data)
           return Promise.resolve(data || msg || message)
         } else {
           console.log('code:', code)

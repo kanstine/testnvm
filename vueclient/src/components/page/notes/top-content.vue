@@ -5,7 +5,8 @@
         <el-input v-model="search" placeholder=""></el-input>
       </div>
       <div class="top-right">
-        <el-button type="primary" @click="handleAdd">写</el-button>
+        <el-button type="primary" @click="handleAdd('ae')">添加</el-button>
+        <el-button type="primary" @click="handleAdd('write')">写</el-button>
       </div>
     </div>
   </div>
@@ -19,8 +20,8 @@ export default {
     }
   },
   methods: {
-    handleAdd () {
-      this.$emit('changePageType', 'ae')
+    handleAdd (type) {
+      this.$emit('changePageType', type)
     }
   }
 }

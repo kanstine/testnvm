@@ -68,14 +68,36 @@ function addNotes (req, res) {
 
 // 新增block
 function addBlock (req, res) {
-  const sql = `INSERT INTO notes (title, type, synopsis) VALUES ("${req.body.title}", "${req.body.type}", "${req.body.synopsis}")`
+  console.log('b请求：', req.body[0].nid)
+   // const sql = `INSERT INTO notes (title, type, synopsis) VALUES ("${req.body.title}", "${req.body.type}", "${req.body.synopsis}")`
+  let sql = ''
+  for (let i = 0; i <  req.body.length; i++) {
+    // 添加块
+    sql = sql + `INSERT INTO notes_block (nid, title) VALUES (${req.body[i].nid}, "${req.body[i].title}");`
+  }
+  console.log('===', sql)
   db.query(sql, [], function(err, resdata) {
     res.setHeader('Content-Type', 'text/plain;charset=utf-8');
     if (err) {
       console.log('err')
       res.end(`{"success": "false", "code": 500, "msg": "SQL ERROR"}`)
     } else {
-      res.end(`{"success": "true", "code": 200, "data": ${resdata.insertId}}`)
+      const OkPacket = JSON.parse(JSON.stringify(resdata))
+      let sqlRow = ''
+      // 添加行
+      for (let m = 0; m < OkPacket.length; m++) {
+        for (let n = 0; n < req.body[m].rowList.length; n++) {
+          sqlRow = sqlRow + `INSERT INTO notes_row (type, row_text, block_id) VALUES ("${req.body[m].rowList[n].type || null}", "${req.body[m].rowList[n].text || null}" ,${OkPacket[m].insertId});`
+        }
+      }
+      db.query(sqlRow, [], function(err, resRow) {
+        if (err) {
+          console.log('err')
+          res.end(`{"success": "false", "code": 500, "msg": "SQL ERROR"}`)
+        } else {
+          res.end(`{"success": "true", "code": 200, "msg": "添加成功"}`)
+        }
+      })
     }
   })
 }
@@ -104,5 +126,6 @@ module.exports = {
   selectNotePage,
   selectNotes,
   selectBlock,
-  addNotes
+  addNotes,
+  addBlock
 };

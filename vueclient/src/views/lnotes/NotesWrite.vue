@@ -1,5 +1,5 @@
 <template>
-  <div>NOTES</div>
+  <div>写文章</div>
 </template>
 
 <script>
