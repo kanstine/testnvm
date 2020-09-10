@@ -59,6 +59,14 @@ const menuRoutes = [
       { path: 'Write', component: () => import('../views/article/WriterArticle.vue'), meta: { title: '写文章' } },
       { path: 'Mould', component: () => import('../views/article/MouldPage.vue'), meta: { title: '模板' } }
     ]
+  }, {
+    path: '/block',
+    component: () => import('../views/wusasi_block/HomeFrame.vue'),
+    redirect: '/block/Show',
+    meta: { title: 'Blogs', icon: 'iconfont icon-manage' },
+    children: [
+      { path: 'Show', component: () => import('../views/wusasi_block/index.vue'), meta: { title: '方块' } }
+    ]
   }
 ]
 

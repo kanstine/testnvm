@@ -20,6 +20,12 @@ var UserSql = require('./sql/user')
 var db2 = require('./db/db'); //引入db
 var userSql = require('./db/notes/noteshome');
 
+var history = require('connect-history-api-fallback');
+// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist'))); // 启用公用文件
+app.use(history());
+
+
 app.get("/getAllUsers", function (req, res, next) {
     var results = {};
     db2.query(userSql.query, [], function (err, rows) {
@@ -43,16 +49,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static('public'));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+/* app.use('/', indexRouter);
+app.use('/users', usersRouter); */
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
-app.use(express.static(path.join(__dirname, 'html'))); // 启用公用文件
+
 
 app.get('/login', function(req, res, next) {
   res.writeHead(200,{'Content-Type':'text/html'})
-  fs.readFile('./html/index.html','utf-8',function(err,data){
+  fs.readFile('./dist/index.html','utf-8',function(err,data){
       if(err){
       throw err ;
       }
